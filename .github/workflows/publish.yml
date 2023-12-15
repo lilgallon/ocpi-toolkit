@@ -25,9 +25,25 @@ jobs:
             -   name: Checkout IZIVIA OCPI toolkit library code from GH
                 uses: actions/checkout@v3
 
+            -   name: Setup gradle action
+                uses: gradle/gradle-build-action@v2.10.0
+                with:
+                    gradle-version: wrapper
+                    cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+                    gradle-home-cache-cleanup: true
+
+            -   name: Ktlint check OCPI toolkit
+                run: ./gradlew ktlintCheck
+
+            -   name: Build OCPI toolkit
+                run: ./gradlew build
+
             -   name: Create a GH release
                 env:
                     VERSION: ${{ github.ref_name }}
                     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 run: |-
-                    gh release create ${{ github.ref }} --generate-notes --title "Version ${VERSION#R-}"
+                    gh release create ${{ github.ref }} \
+                        --generate-notes \
+                        --title "Version ${VERSION#R-}" \
+                        ocpi-toolkit-2.2.1/build/libs/*.jar
