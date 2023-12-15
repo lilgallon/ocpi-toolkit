@@ -25,16 +25,9 @@ jobs:
             -   name: Checkout IZIVIA OCPI toolkit library code from GH
                 uses: actions/checkout@v3
 
-            -   name: Setup gradle action
-                uses: gradle/gradle-build-action@v2.10.0
-                with:
-                    gradle-version: wrapper
-                    cache-read-only: ${{ github.ref != 'refs/heads/main' }}
-                    gradle-home-cache-cleanup: true
-
             -   name: Create a GH release
                 env:
-                    VERSION: ${{ github.ref }}
+                    VERSION: ${{ github.ref_name }}
                 run: |-
                     RELEASE_NAME=Version ${VERSION#R-}
                     echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
