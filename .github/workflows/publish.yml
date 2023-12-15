@@ -29,6 +29,4 @@ jobs:
                 env:
                     VERSION: ${{ github.ref_name }}
                 run: |-
-                    echo "RELEASE_NAME=Version ${VERSION#R-}" >> $GITHUB_ENV
-                    echo $GITHUB_ENV
-                    gh release create ${{ github.ref }} --generate-notes --title ${RELEASE_NAME}
+                    gh release create ${{ github.ref }} --generate-notes --title "Version ${VERSION#R-}"
