@@ -28,5 +28,6 @@ jobs:
             -   name: Create a GH release
                 env:
                     VERSION: ${{ github.ref_name }}
+                    GH_TOKEN: ${{ github.token }}
                 run: |-
                     gh release create ${{ github.ref }} --generate-notes --title "Version ${VERSION#R-}"
